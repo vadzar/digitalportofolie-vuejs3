@@ -80,8 +80,12 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import Footer from '@/views/Footer.vue';
+import { userRegister, fetchUserData } from '../../../connector/userConnector';
+import { dpStore } from '../../../store';
+import { useRoute, useRouter } from 'vue-router';
 
-
+const store = dpStore();
+const router = useRouter();
 const user = ref({
     email: '',
     firstName: '',
@@ -90,11 +94,14 @@ const user = ref({
     confirmPassword: ''
 })
 
-const signUp = () => {
-    // Add your sign-up logic here
-    // You can use user.value.username, user.value.email, user.value.password, etc.
-    // After successful sign-up, navigate to a different page
-    router.push('/dashboard'); // Change to your desired route
+const signUp = async () => {
+    let response = await userRegister(user.value);
+    if(response.token) {
+        store.userData = await fetchUserData(response.token);
+        store.isLoggedIn = true;
+        store.authToken = response.token;
+        router.push('/home');
+    }
 };
 
 </script>

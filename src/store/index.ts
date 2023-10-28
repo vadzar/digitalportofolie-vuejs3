@@ -4,31 +4,41 @@ import { ref, computed } from "vue";
 import { vuetify } from '../plugins/vuetify';
 
 export const dpStore = defineStore("dpStore1", () => {
-    // state\
-    const test = ref("test");
+    // state
     const themeDark = ref(false);
-    const isLoggedIn = ref(true);
-    const loggedInEmail = ref();
-    const authToken = ref();
+    const authToken = ref(localStorage.getItem('authToken') || null);
+    const userData = ref({});
+
     //getters
-    const testLength = computed(() => test.value.length )
+    const isLoggedIn = computed(() => authToken.value != null);
+    const getAuthToken = computed(() => authToken.value )
+    const getUserData = computed(() => userData.value )
+
     // actions
-    function setTest(val:string) {
-        test.value = val;
+    const setAuthToken = (token) => {
+        authToken.value = token;
+        localStorage.setItem('authToken', token);
     }
-    function toggleTheme() {
+    const clearAuthToken = () => {
+        authToken.value = null;
+        localStorage.removeItem('authToken');
+    }
+    const setUserData = (data) => {
+        userData.value = data;
+    }
+    const toggleTheme = () => {
         themeDark.value = !themeDark.value;
         vuetify.theme.global.name.value = themeDark.value ? "dark" : "light";
     }
     
     return { 
-        test, 
         themeDark,
-        authToken,
+        getAuthToken,
+        setAuthToken,
+        clearAuthToken,
+        setUserData,
+        getUserData,
         isLoggedIn,
-        loggedInEmail,
-        testLength, 
-        setTest,
         toggleTheme
     }
 })

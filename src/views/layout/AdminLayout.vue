@@ -32,7 +32,7 @@
             </template>
         </v-navigation-drawer>
 
-        <v-main class="d-flex align-center justify-center" style="min-height: 900px;">
+        <v-main class="d-flex align-center justify-center">
             <slot name="body"></slot>
         </v-main>
     </v-layout>
@@ -51,9 +51,7 @@ const drawer = ref(false);
 const rail = ref(false);
 
 const logout = () => {
-    // store.isLoggedIn = false;
-    // store.loggedInEmail = "";
-
+    store.clearAuthToken();
     router.push({ path: "/login" })
 }
 </script>

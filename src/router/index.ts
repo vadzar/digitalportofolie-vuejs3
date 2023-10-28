@@ -2,6 +2,7 @@ import { createRouter, createWebHashHistory } from "vue-router";
 import LoginPage from "@/views/pages/page-login/LoginPage.vue";
 import RegisterPage from "@/views/pages/page-register/RegisterPage.vue";
 import { dpStore } from "../store";
+import { fetchUserData } from '../connector/userConnector';
 
 const routes = [
     {
@@ -57,14 +58,27 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
     const store = dpStore();
-    if(
-        to.matched.some((record) => record.meta.requiredLogin) &&
-        !store.isLoggedIn
-    ) {
-        return next({ path: "/login"});
+    if(to.matched.some((record) => record.meta.requiredLogin)) {
+        checkLogin(store, next);
     }
-    else
+    else {
         next();
+    }
+        
 })
+
+const checkLogin = async (store, next) => {
+    if(store.isLoggedIn) {
+        const userData = await fetchUserData(store.getAuthToken);
+        if(userData != null) {
+            store.setUserData(userData);
+            next();
+        } else {
+            alert("Your session is expired, please login again")
+            store.clearAuthToken();
+            next({ path: "/login"});
+        }
+    }
+}
 
 export default router;

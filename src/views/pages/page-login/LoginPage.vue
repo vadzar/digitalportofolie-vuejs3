@@ -38,10 +38,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { dpStore } from '../../../store'
 import { useRoute, useRouter } from 'vue-router';
-import { userLogin } from '../../../connector/userConnector';
+import { userLogin, fetchUserData } from '../../../connector/userConnector';
 import Footer from '@/views/Footer.vue';
 
 
@@ -51,20 +51,24 @@ const router = useRouter();
 const email = ref("");
 const password = ref("");
 
-const login = async () => {
+onMounted(() => {
+	if(store.isLoggedIn)
 		router.push({ name: 'HomePage' });
-		// let data = { 
-		//   email: email.value,
-		//   password: password.value
-		// }
+});
 
-		// let response = await userLogin(data);
-		// if(response.token) {
-		//   store.isLoggedIn = true;
-		//   store.authToken = response.token;
-		//   store.loggedInEmail = email.value;
-		//   router.push({ name: 'HomePage' });
-		// } 
+const login = async () => {
+		let data = { 
+			email: email.value,
+			password: password.value
+		}
+
+		let response = await userLogin(data);
+		if(response) {
+			store.setAuthToken(response.token);
+		  	store.userData = await fetchUserData(response.token);
+		  	if(store.userData != null)
+		  		router.push({ name: 'HomePage' });
+		} 
 }
 </script>
 
