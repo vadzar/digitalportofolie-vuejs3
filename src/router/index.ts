@@ -36,8 +36,28 @@ const routes = [
         meta: { requiredLogin: true }
     },
     {
+        path: "/articles",
+        name: "ArticleListPage",
+        component: () => {
+            return import(
+                '../views/pages/page-article/ArticleListPage.vue'
+            );
+        },
+        meta: { requiredLogin: true }
+    },
+    {
         path: "/article",
         name: "ArticlePage",
+        component: () => {
+            return import(
+                '../views/pages/page-article/ArticlePage.vue'
+            );
+        },
+        meta: { requiredLogin: true }
+    },
+    {
+        path: "/article/:id",
+        name: "ArticlePageEdit",
         component: () => {
             return import(
                 '../views/pages/page-article/ArticlePage.vue'
