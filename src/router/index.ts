@@ -64,6 +64,16 @@ const routes = [
             );
         },
         meta: { requiredLogin: true }
+    },
+    {
+        path: "/user-profile",
+        name: "UserProfilePage",
+        component: () => {
+            return import(
+                '../views/pages/page-profile/UserProfilePage.vue'
+            );
+        },
+        meta: { requiredLogin: true }
     }
 ];
 

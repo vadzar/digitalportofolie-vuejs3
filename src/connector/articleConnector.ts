@@ -2,7 +2,6 @@ import { axiosConnector } from './apiConnector';
 import { dpStore } from '../store';
 
 const store = dpStore();
-const userData = store.getUserDat;
 const token = store.getAuthToken;
 
 const errorHandler = (error:any) => {

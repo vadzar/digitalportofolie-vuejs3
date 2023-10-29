@@ -7,8 +7,8 @@
             <v-app-bar-nav-icon class="primary" variant="text" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
             <v-toolbar-title>Digital Portofolio</v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-btn variant="text" icon="mdi-weather-night" @click.stop="store.toggleTheme"></v-btn>
-            <v-btn variant="text" icon="mdi-dots-vertical"></v-btn>
+            <v-btn class="mr-2" variant="text" icon="mdi-weather-night" @click.stop="store.toggleTheme"></v-btn>
+            <v-btn variant="text" prepend-icon="mdi-logout" @click.stop="logout">logout</v-btn>
         </v-app-bar>
 
         <v-navigation-drawer

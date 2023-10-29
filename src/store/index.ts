@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import { ref, computed } from "vue";
 
 import { vuetify } from '../plugins/vuetify';
+import { UserData } from "../connector/userConnector";
 
 export const dpStore = defineStore("dpStore1", () => {
     // state

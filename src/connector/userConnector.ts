@@ -66,12 +66,38 @@ export const userRegister = async (data:any) => {
   }
 }
 
+export const updateUserData = async (data:UserData, token:string) => {
+  try {
+      const config: AxiosRequestConfig = {
+          headers: {
+              'Authorization': 'Bearer ' + token,
+              'Content-Type': 'application/json; charset=UTF-8',
+              'Access-Control-Allow-Origin': '*'
+          },
+      };
+      const resp = await axiosConnector.post<UserData>(
+          '/user/update', 
+          data,
+          config
+      );
+      return resp;
+  } catch(error) {
+      if(error.response) {
+        alert(error.response.data.message)
+      } else {
+        alert(error.message);
+      }
+      console.error('Failed update: ', error);
+  }
+}
+
 // Define a TypeScript interface for the expected response data (UserData)
-interface UserData {
+export interface UserData {
   // Define the structure of the user data here
   id: number;
   firstName: string;
   lastName: string;
+  aboutMe: string;
   email: string;
   password: string,
   role: string;
